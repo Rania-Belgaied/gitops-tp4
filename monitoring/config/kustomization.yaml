@@ -3,3 +3,12 @@ kind: Kustomization
 resources:
   - argocd-servicemonitors.yaml
   - podinfo-servicemonitor.yaml
+configMapGenerator:
+  - name: podinfo-gitops-dashboard
+    namespace: monitoring
+    files:
+      - dashboards/dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+      disableNameSuffixHash: true
