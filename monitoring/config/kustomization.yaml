@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - argocd-servicemonitors.yaml
   - podinfo-servicemonitor.yaml
+  - alert-rules.yaml
 configMapGenerator:
   - name: podinfo-gitops-dashboard
     namespace: monitoring

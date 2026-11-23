@@ -1,0 +1,30 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: gitops-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: gitops
+      rules:
+        - alert: ArgoAppDegraded
+          expr: argocd_app_info{health_status="Degraded"} == 1
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "App ArgoCD {{ $labels.name }} Degraded depuis plus de 2 min"
+        - alert: ArgoAppOutOfSync
+          expr: argocd_app_info{sync_status="OutOfSync"} == 1
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "App ArgoCD {{ $labels.name }} OutOfSync depuis plus de 2 min"
+        - alert: PodImagePullOrCrashLoop
+          expr: kube_pod_container_status_waiting_reason{namespace="demo",reason=~"ErrImagePull|ImagePullBackOff|CrashLoopBackOff"} > 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Pod {{ $labels.pod }} bloqué ({{ $labels.reason }})"
