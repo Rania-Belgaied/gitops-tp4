@@ -8,4 +8,4 @@ replicas:
     count: 4
 images:
   - name: ghcr.io/stefanprodan/podinfo
-    newTag: 6.7.0
+    newTag: 6.8.0
