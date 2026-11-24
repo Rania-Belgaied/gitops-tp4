@@ -5,7 +5,7 @@ resources:
   - ../../base
 replicas:
   - name: podinfo
-    count: 2
+    count: 4
 images:
   - name: ghcr.io/stefanprodan/podinfo
     newTag: 6.8.0
